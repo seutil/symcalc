@@ -195,18 +195,38 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 	}
+
+	/**
+	 * \brief
+	 * Namespace that contains constants and functions for working with constants
+	 */
 	namespace Consts
 	{
+		/**
+		 * Predefined constants
+		 */
 		std::map<std::string, long double> consts {
 			{ "pi", 3.1415926535 },
 			{ "e",  2.7182818284 }
 		};
 
+		/**
+		 * Add new constant
+		 *
+		 * @param n Constant identifier
+		 * @param v Constant value
+		 */
 		void add(std::string n, long double v)
 		{
 			consts[n] = v;
 		}
 
+		/**
+		 * Checking that constants with passed identifier exists
+		 *
+		 * @param co Constant identifier
+		 * @return true if constant with identifier \a co exists, otherwise return false
+		 */
 		bool is_const(std::string co)
 		{
 			for (const auto& iter : consts)
@@ -215,6 +235,12 @@ namespace SymCalc
 			return false;
 		}
 
+		/**
+		 * Return constant associated value
+		 *
+		 * @param co Constant identifier
+		 * @return Constant associated value if constant with identifier \a co exists, otherwise rising exception
+		 */
 		long double get_const(std::string co)
 		{
 			for (const auto& iter : consts)
