@@ -13,6 +13,13 @@
 
 #define DECLARE_OPERATOR(n, c, b, p, a, i) { n, { c, { ([](std::vector<long double> args) -> long double {b}), { p, { a, i } } } } }
 
+/**
+ * @namespace SymCalc
+ *
+ * Name space that contains function, typedefs and enumerators types for the symbolic calculations.
+ * @see SymCalc::Operators
+ * @see SymCalc::Consts
+ */
 namespace SymCalc
 {
 	typedef long double (*Operator)(std::vector<long double>);
@@ -121,6 +128,13 @@ namespace SymCalc
 		}
 	}
 
+	/**
+	 * Transform passed formula in infix notation to postfix(reverse polish) notation.
+	 *
+	 * @param formula Algebraic formula in postfix notation
+	 * @return vector of strings that represents formula in postfix notation
+	 * @see calculate_rpn"()"
+	 */
 	std::vector<std::string> string_to_rpn(const std::string formula)
 	{
 		using namespace std;
@@ -133,12 +147,13 @@ namespace SymCalc
 				continue;
 			else if (isdigit(formula[i]))
 			{
-				string number = "";
-				size_t j = i;
-				while (j < formula_length && (formula[j] == '.' || isdigit(formula[j])))
-					number += formula[j++];
+				string number = formula.substr(i++, 1);
+
+				// Number consists only of digits or '.'(decimal separator) characters
+				while (i < formula_length && (formula[i] == '.' || isdigit(formula[i])))
+					number += formula[i++];
 				output.push_back(number);
-				i = --j;
+				i--; // used not to skip next character
 			}
 			else if (formula[i] == '(')
 				stack.push("(");
@@ -153,9 +168,11 @@ namespace SymCalc
 					if (!stack.size())
 						throw length_error("Parenthesis at '" + to_string(i) + "' position was never been opened.");
 				}
-				if (stack.top() == "(") stack.pop();
+				stack.pop(); // remove left parenthesis from stack
 
-				// check that token at the top of the stack is function
+				/* If operator writes not on infix form than parenthesis
+				 * refer to the function(such as sqrt, cos, sin, etc.)
+				 */
 				if (stack.size() && !Operators::is_infix(stack.top()))
 				{
 					output.push_back(stack.top());
@@ -167,19 +184,31 @@ namespace SymCalc
 				string name = formula.substr(i++, 1);
 				bool is_punct = ispunct(name[0]);
 
+				/* If symbol that we read is a punctuation character
+				 * than operator or constant name consists only of punctuation characters.
+				 * We should except '(' and ')' character because this is special characters.
+				 *
+				 * Otherwise, operator or constant name consist only of alphabet characters,
+				 */
 				while (i < formula_length && (is_punct ? (ispunct(formula[i]) && formula[i] != '(' && formula[i] != ')') : isalpha(formula[i])))
 					name += formula[i++];
-				i--;
+				i--; // used not to skip next character
 
-				// operator processing
 				if (Operators::is_operator(name))
 				{
+					if (i == formula_length)
+						throw invalid_argument("Operator \"" + name + "\" expects operands");
+
 					if (!stack.size() || stack.top() == "(")
 					{
 						stack.push(name);
 						continue;
 					}
 
+					/* Shunting yard algorithm.
+					 * For more information see https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+					 *  or main page in the documentation.
+					 */
 					Operators::Precedence op1_precedence = Operators::get_precedence(name);
 					Operators::Precedence op2_precedence = Operators::get_precedence(stack.top());
 					bool is_op1_left_assocated = Operators::get_associativity(name) == Operators::LEFT_ASSOCIATED;
@@ -201,6 +230,10 @@ namespace SymCalc
 					throw invalid_argument("Symbol \"" + name + "\" is not operator or constant");
 			}
 
+		/* Last step of shunting yard algorithm.
+		 * For more information see https://en.wikipedia.org/wiki/Shunting_yard_algorithm
+		 *  or main page in the documentation.
+		 */
 		while (stack.size())
 		{
 			output.push_back(stack.top());
