@@ -120,4 +120,93 @@ namespace SymCalc
 			throw std::invalid_argument("Constant with specified name: \"" + co + "\" is not registered");
 		}
 	}
+
+	std::vector<std::string> string_to_rpn(const std::string formula)
+	{
+		using namespace std;
+
+		vector<string> output;
+		stack<string> stack;
+		size_t formula_length = formula.length();
+		for (size_t i = 0; i < formula_length; i++)
+			if (formula[i] == ',' || formula[i] == ' ')
+				continue;
+			else if (isdigit(formula[i]))
+			{
+				string number = "";
+				size_t j = i;
+				while (j < formula_length && (formula[j] == '.' || isdigit(formula[j])))
+					number += formula[j++];
+				output.push_back(number);
+				i = --j;
+			}
+			else if (formula[i] == '(')
+				stack.push("(");
+			else if (formula[i] == ')')
+			{
+				if (!stack.size())
+					throw length_error("Parenthesis at '" + to_string(i) + "' position was never been opened.");
+				while (stack.top() != "(")
+				{
+					output.push_back(stack.top());
+					stack.pop();
+					if (!stack.size())
+						throw length_error("Parenthesis at '" + to_string(i) + "' position was never been opened.");
+				}
+				if (stack.top() == "(") stack.pop();
+
+				// check that token at the top of the stack is function
+				if (stack.size() && !Operators::is_infix(stack.top()))
+				{
+					output.push_back(stack.top());
+					stack.pop();
+				}
+			}
+			else // when it operator(function) or constant
+			{
+				string name = formula.substr(i++, 1);
+				bool is_punct = ispunct(name[0]);
+
+				while (i < formula_length && (is_punct ? (ispunct(formula[i]) && formula[i] != '(' && formula[i] != ')') : isalpha(formula[i])))
+					name += formula[i++];
+				i--;
+
+				// operator processing
+				if (Operators::is_operator(name))
+				{
+					if (!stack.size() || stack.top() == "(")
+					{
+						stack.push(name);
+						continue;
+					}
+
+					Operators::Precedence op1_precedence = Operators::get_precedence(name);
+					Operators::Precedence op2_precedence = Operators::get_precedence(stack.top());
+					bool is_op1_left_assocated = Operators::get_associativity(name) == Operators::LEFT_ASSOCIATED;
+					while (op2_precedence > op1_precedence ||
+						  (op1_precedence == op2_precedence && is_op1_left_assocated))
+					{
+						output.push_back(stack.top());
+						stack.pop();
+						if (stack.size())
+							op2_precedence = Operators::get_precedence(stack.top());
+						else
+							break;
+					}
+					stack.push(name);
+				}
+				else if (Consts::is_const(name))
+					output.push_back(to_string(Consts::get_const(name)));
+				else
+					throw invalid_argument("Symbol \"" + name + "\" is not operator or constant");
+			}
+
+		while (stack.size())
+		{
+			output.push_back(stack.top());
+			stack.pop();
+		}
+
+		return output;
+	}
 }
