@@ -133,7 +133,7 @@ namespace SymCalc
 	 *
 	 * @param formula Algebraic formula in postfix notation
 	 * @return vector of strings that represents formula in postfix notation
-	 * @see calculate_rpn"()"
+	 * @see calculate_rpn
 	 */
 	std::vector<std::string> string_to_rpn(const std::string formula)
 	{
@@ -243,6 +243,12 @@ namespace SymCalc
 		return output;
 	}
 
+	/**
+	 * Calculate passed vector of strings that represents formula in postfix notation
+	 *
+	 * @param rpn Formula in postfix notation
+	 * @return Result of formula calculations
+	 */
 	long double calculate_rpn(std::vector<std::string> rpn)
 	{
 		using namespace std;
@@ -253,6 +259,12 @@ namespace SymCalc
 				stack.push(stod(s));
 			else
 			{
+				/* Extracting @max_args_count passed arguments for operator(function).
+				 *
+				 * Note:
+				 * 	Number of operator(function) arguments are varies.
+				 * 	That means that in function can be passed 1, 2, ..., max_args_count arguments.
+				 */
 				vector<long double> args;
 				Operators::ArgsCount max_args_count = Operators::get_args_count(s);
 				while (max_args_count-- && stack.size())
@@ -261,7 +273,9 @@ namespace SymCalc
 					stack.pop();
 				}
 
-				// reverse arguments
+				/* Flipping extracted arguments vector, because order of passed arguments
+				 * to operator(function) in RPN notation has been reversed.
+				 */
 				size_t args_length = args.size();
 				for (size_t i = 0; i < args_length/2; i++)
 				{
