@@ -92,4 +92,32 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 	}
+	namespace Consts
+	{
+		std::map<std::string, long double> consts {
+			{ "pi", 3.1415926535 },
+			{ "e",  2.7182818284 }
+		};
+
+		void add(std::string n, long double v)
+		{
+			consts[n] = v;
+		}
+
+		bool is_const(std::string co)
+		{
+			for (const auto& iter : consts)
+				if (iter.first == co)
+					return true;
+			return false;
+		}
+
+		long double get_const(std::string co)
+		{
+			for (const auto& iter : consts)
+				if (iter.first == co)
+					return iter.second;
+			throw std::invalid_argument("Constant with specified name: \"" + co + "\" is not registered");
+		}
+	}
 }
