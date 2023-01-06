@@ -131,11 +131,11 @@ namespace SymCalc
 	/**
 	 * Transform passed formula in infix notation to postfix(reverse polish) notation.
 	 *
-	 * @param formula Algebraic formula in postfix notation
+	 * @param formula Algebraic formula in infix notation
 	 * @return vector of strings that represents formula in postfix notation
-	 * @see calculate_rpn
+	 * @see SymCalc::calculate_rpn
 	 */
-	std::vector<std::string> string_to_rpn(const std::string formula)
+	std::vector<std::string> string_to_rpn(std::string formula)
 	{
 		using namespace std;
 
@@ -289,6 +289,16 @@ namespace SymCalc
 		return stack.top();
 	}
 
+	/**
+	 * Calculate passed algebraic formula.\n
+	 *
+	 * Alias for consecutive calls to the SymCalc::string_to_rpn and SymCalc::calculate_rpn functions
+	 *
+	 * @param formula Algebraic formula in infix notation
+	 * @return Result of formula calculations
+	 * @see
+	 *
+	 */
 	long double calculate(std::string formula)
 	{
 		return calculate_rpn(string_to_rpn(formula));
