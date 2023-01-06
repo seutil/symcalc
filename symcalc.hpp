@@ -209,4 +209,36 @@ namespace SymCalc
 
 		return output;
 	}
+
+	long double calculate_rpn(std::vector<std::string> rpn)
+	{
+		using namespace std;
+
+		stack<long double> stack;
+		for (const string& s : rpn)
+			if (!Operators::is_operator(s))
+				stack.push(stod(s));
+			else
+			{
+				vector<long double> args;
+				Operators::ArgsCount max_args_count = Operators::get_args_count(s);
+				while (max_args_count-- && stack.size())
+				{
+					args.push_back(stack.top());
+					stack.pop();
+				}
+
+				// reverse arguments
+				size_t args_length = args.size();
+				for (size_t i = 0; i < args_length/2; i++)
+				{
+					long double temp = args[i];
+					args[i] = args[args_length-i-1];
+					args[args_length-i-1] = temp;
+				}
+
+				stack.push(Operators::get_operator(s)(args));
+			}
+		return stack.top();
+	}
 }
