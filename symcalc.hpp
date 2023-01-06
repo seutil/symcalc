@@ -11,6 +11,14 @@
 #include <utility>
 #include <stdexcept>
 
+/**
+ * @file
+ */
+
+/**
+ * Used within SymCalc::Operators::add function to adding new operators.\n
+ * For example of usage see documentation main page
+ */
 #define DECLARE_OPERATOR(n, c, b, p, a, i) { n, { c, { ([](std::vector<long double> args) -> long double {b}), { p, { a, i } } } } }
 
 /**
@@ -24,14 +32,56 @@ namespace SymCalc
 {
 	typedef long double (*Operator)(std::vector<long double>);
 
+	/**
+	 * \brief
+	 * contains function and typedef for operators(functions):
+	 * 		- predefined operations(function) that used for formula calculating
+	 * 		- types for operator(function) declaration
+	 * 		- function for extracting information about operator(function)
+	 * 		- function Operators::add() to add new operators(functions) or replace predefined
+	 */
 	namespace Operators
 	{
+		/**
+		 * \brief
+		 * Precendence of the operator.\n
+		 * For example see <a href="http://www.eecs.northwestern.edu/~wkliao/op-prec.htm" target="_blank">Operators precedence</a>
+		 */
 		typedef size_t Precedence;
+
+		/**
+		 * \brief
+		 * Typedef for number of function arguments.\n
+		 * Used in SymCalc::Operators::OperatorInfo typedef
+		 */
 		typedef size_t ArgsCount;
+
+		/**
+		 * \brief
+		 * Associativity of the operator(function)\n
+		 * For example see <a href="http://www.eecs.northwestern.edu/~wkliao/op-prec.htm" target="_blank">Associativity of operators</a>
+		 */
 		typedef enum { LEFT_ASSOCIATED, RIGHT_ASSOCIATED } Associativity;
+
+		/**
+		 * Typedef which used to describe operator(function).\n
+		 * The last boolean value indicates that operator writes on infix form or not.
+		 *
+		 * @see #DECLARE_OPERATOR
+		 */
 		typedef std::pair<ArgsCount, std::pair<Operator, std::pair<Precedence, std::pair<Associativity, bool>>>> OperatorInfo;
+
+		/**
+		 * \brief
+		 * Map of Operators::OperatorInfo
+		 */
 		typedef std::map<std::string, OperatorInfo> OperatorsMap;
 
+		/**
+		 * \brief
+		 * Predefined operators.
+		 * @see Operators::add
+		 */
 		OperatorsMap operators {
 			DECLARE_OPERATOR("+",    2, return args[0] + args[1];, 			 0, LEFT_ASSOCIATED,  true),
 			DECLARE_OPERATOR("-",    2, return args[0] - args[1];, 			 0, LEFT_ASSOCIATED,  true),
@@ -46,11 +96,21 @@ namespace SymCalc
 			DECLARE_OPERATOR("~",	 1, return -args[0];,					 5, RIGHT_ASSOCIATED, true)
 		};
 
+		/**
+		 * Add new operator.
+		 * @see DECLARE_OPERATOR
+		 */
 		void add(std::pair<std::string, OperatorInfo> op)
 		{
 			operators.insert(op);
 		}
 
+		/**
+		 * Checking that operator wiht name \a op exists
+		 *
+		 * @param op Operator identifier
+		 * @return true if operator exists, otherwise return false
+		 */
 		bool is_operator(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -59,6 +119,12 @@ namespace SymCalc
 			return false;
 		}
 
+		/**
+		 * Checking that operator with identifier \a op has write in infix notation
+		 *
+		 * @param op Operator identifier
+		 * @return true if operator exists and have infix notation, otherwise rising exception
+		 */
 		bool is_infix(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -67,6 +133,12 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
+		/**
+		 * Return function that associates with passed operator identifier
+		 *
+		 * @param op Operator identifier
+		 * @return SymCalc::Operator if operator with identifier \a op exists, otherwise rising exception
+		 */
 		Operator get_operator(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -75,6 +147,12 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
+		/**
+		 * Return operator precedence
+		 *
+		 * @param op Operator identifier
+		 * @return Operators::Precedence if operator with identifier \a op exists, otherwise rising exception
+		 */
 		Precedence get_precedence(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -83,6 +161,12 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
+		/**
+		 * Return operator associativity
+		 *
+		 * @param op Operator identifier
+		 * @return Operators::Associativity if operator with identifier \a op exists, otherwise rising exception
+		 */
 		Associativity get_associativity(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -91,6 +175,12 @@ namespace SymCalc
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
+		/**
+		 * Return maximum number of arguments that operator \a op accept
+		 *
+		 * @param op Operator identifier
+		 * @return Operators::ArgsCount if operator with identifier \a op exists, otherwise rising exception
+		 */
 		ArgsCount get_args_count(std::string op)
 		{
 			for (const auto& iter : operators)
@@ -129,11 +219,13 @@ namespace SymCalc
 	}
 
 	/**
-	 * Transform passed formula in infix notation to postfix(reverse polish) notation.
+	 * Transform passed formula in infix notation to postfix(reverse polish) notation.\n
+	 * For more information see <a href="https://en.wikipedia.org/wiki/Shunting_yard_algorithm" target="_blank">Shunting yard algorithm</a>
 	 *
 	 * @param formula Algebraic formula in infix notation
 	 * @return vector of strings that represents formula in postfix notation
 	 * @see SymCalc::calculate_rpn
+	 *
 	 */
 	std::vector<std::string> string_to_rpn(std::string formula)
 	{
