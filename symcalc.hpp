@@ -36,7 +36,7 @@ namespace SymCalc
 	 * @param args Arguments that passed to operator
 	 * @return Result of calculations
 	 */
-	typedef long double (*Operator)(std::vector<long double>);
+	typedef long double (*Operator)(std::vector<long double> args);
 
 	/**
 	 * \brief
