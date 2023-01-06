@@ -241,4 +241,9 @@ namespace SymCalc
 			}
 		return stack.top();
 	}
+
+	long double calculate(std::string formula)
+	{
+		return calculate_rpn(string_to_rpn(formula));
+	}
 }
