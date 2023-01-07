@@ -130,6 +130,9 @@ namespace SymCalc
 			operators.insert(op);
 		}
 
+		/**
+		 * @see add
+		 */
 		void add(std::string n, ArgsCount c, Operator b, Precedence p, Associativity a, bool i)
 		{
 			if (is_operator(n))
