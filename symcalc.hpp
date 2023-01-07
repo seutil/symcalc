@@ -19,7 +19,7 @@
  * Used within SymCalc::Operators::add function to adding new operators.\n
  * For example of usage see documentation main page
  */
-#define DECLARE_OPERATOR(n, c, b, p, a, i) { n, { c, { ([](std::vector<long double> args) -> long double {b}), { p, { a, i } } } } }
+#define DECLARE_OPERATOR(n, c, b, p, a, i) { n, { c, { ([](std::vector<long double> args) -> std::vector<long double> {b}), { p, { a, i } } } } }
 
 /**
  * @namespace SymCalc
@@ -36,7 +36,7 @@ namespace SymCalc
 	 * @param args Arguments that passed to operator
 	 * @return Result of calculations
 	 */
-	typedef long double (*Operator)(std::vector<long double> args);
+	typedef std::vector<long double> (*Operator)(std::vector<long double> args);
 
 	/**
 	 * \brief
@@ -89,17 +89,17 @@ namespace SymCalc
 		 * @see Operators::add
 		 */
 		OperatorsMap operators {
-			DECLARE_OPERATOR("+",    2, return args[0] + args[1];, 			 0, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("-",    2, return args[0] - args[1];, 			 0, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("*",    2, return args[0] * args[1];, 			 1, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("/",    2, return args[0] / args[1];, 			 1, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("%",    2, return (int)args[0] % (int)args[1];, 2, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("^", 	 2, return pow(args[0], args[1]);, 		 3, RIGHT_ASSOCIATED, true),
-			DECLARE_OPERATOR("sqrt", 1, return pow(args[0], 1/args[1]);, 	 3, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("sin",  1, return sin(args[0]);, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("cos",  1, return cos(args[0]);, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("tan",  1, return tan(args[0]);, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("~",	 1, return -args[0];,					 5, RIGHT_ASSOCIATED, true)
+			DECLARE_OPERATOR("+",    2, return {args[0] + args[1]};, 			 0, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("-",    2, return {args[0] - args[1]};, 			 0, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("*",    2, return {args[0] * args[1]};, 			 1, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("/",    2, return {args[0] / args[1]};, 			 1, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("%",    2, return {std::fmod(args[0], args[1])};,   2, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("^", 	 2, return {pow(args[0], args[1])};, 		 3, RIGHT_ASSOCIATED, true),
+			DECLARE_OPERATOR("sqrt", 1, return {pow(args[0], 1/args[1])};, 	 	 3, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("sin",  1, return {sin(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("cos",  1, return {cos(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("tan",  1, return {tan(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("~",	 1, return {-args[0]};,					 	 5, RIGHT_ASSOCIATED, true)
 		};
 
 		/**
@@ -277,7 +277,7 @@ namespace SymCalc
 				while (i < formula_length && (formula[i] == '.' || isdigit(formula[i])))
 					number += formula[i++];
 				output.push_back(number);
-				i--; // used not to skip next character
+				i--; // used in order not to skip next character
 			}
 			else if (formula[i] == '(')
 				stack.push("(");
@@ -316,7 +316,7 @@ namespace SymCalc
 				 */
 				while (i < formula_length && (is_punct ? (ispunct(formula[i]) && formula[i] != '(' && formula[i] != ')') : isalpha(formula[i])))
 					name += formula[i++];
-				i--; // used not to skip next character
+				i--; // used in order not to skip next character
 
 				if (Operators::is_operator(name))
 				{
@@ -336,15 +336,12 @@ namespace SymCalc
 					Operators::Precedence op1_precedence = Operators::get_precedence(name);
 					Operators::Precedence op2_precedence = Operators::get_precedence(stack.top());
 					bool is_op1_left_assocated = Operators::get_associativity(name) == Operators::LEFT_ASSOCIATED;
-					while (op2_precedence > op1_precedence ||
-						  (op1_precedence == op2_precedence && is_op1_left_assocated))
+					while (!stack.empty() &&
+						  (op2_precedence > op1_precedence || (op1_precedence == op2_precedence && is_op1_left_assocated)))
 					{
 						output.push_back(stack.top());
 						stack.pop();
-						if (stack.size())
-							op2_precedence = Operators::get_precedence(stack.top());
-						else
-							break;
+						op2_precedence = Operators::get_precedence(stack.top());
 					}
 					stack.push(name);
 				}
@@ -373,14 +370,14 @@ namespace SymCalc
 	 * @param rpn Formula in postfix notation
 	 * @return Result of formula calculations
 	 */
-	long double calculate_rpn(std::vector<std::string> rpn)
+	std::vector<long double> calculate_rpn(std::vector<std::string> rpn)
 	{
 		using namespace std;
 
-		stack<long double> stack;
+		vector<long double> output;
 		for (const string& s : rpn)
 			if (!Operators::is_operator(s))
-				stack.push(stod(s));
+				output.push_back(stod(s));
 			else
 			{
 				/* Extracting @max_args_count passed arguments for operator(function).
@@ -391,10 +388,10 @@ namespace SymCalc
 				 */
 				vector<long double> args;
 				Operators::ArgsCount max_args_count = Operators::get_args_count(s);
-				while (max_args_count-- && stack.size())
+				while (max_args_count-- && output.size())
 				{
-					args.push_back(stack.top());
-					stack.pop();
+					args.push_back(output[output.size()-1]);
+					output.pop_back();
 				}
 
 				/* Flipping extracted arguments vector, because order of passed arguments
@@ -408,9 +405,23 @@ namespace SymCalc
 					args[args_length-i-1] = temp;
 				}
 
-				stack.push(Operators::get_operator(s)(args));
+				vector<long double> operator_output = Operators::get_operator(s)(args);
+				while (operator_output.size())
+				{
+					output.push_back(operator_output[operator_output.size()-1]);
+					operator_output.pop_back();
+				}
 			}
-		return stack.top();
+
+		/* Reversing output vector */
+		size_t output_length = output.size();
+		for (size_t i = 0; i < output.size() / 2; i++)
+		{
+			long double temp = output[i];
+			output[i] = output[output_length-i];
+			output[output_length-i] = temp;
+		}
+		return output;
 	}
 
 	/**
@@ -423,7 +434,7 @@ namespace SymCalc
 	 * @see
 	 *
 	 */
-	long double calculate(std::string formula)
+	std::vector<long double> calculate(std::string formula)
 	{
 		return calculate_rpn(string_to_rpn(formula));
 	}
