@@ -89,17 +89,17 @@ namespace SymCalc
 		 * @see Operators::add
 		 */
 		OperatorsMap operators {
-			DECLARE_OPERATOR("+",    2, return {args[0] + args[1]};, 			 0, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("-",    2, return {args[0] - args[1]};, 			 0, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("*",    2, return {args[0] * args[1]};, 			 1, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("/",    2, return {args[0] / args[1]};, 			 1, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("%",    2, return {std::fmod(args[0], args[1])};,   2, LEFT_ASSOCIATED,  true),
-			DECLARE_OPERATOR("^", 	 2, return {pow(args[0], args[1])};, 		 3, RIGHT_ASSOCIATED, true),
-			DECLARE_OPERATOR("sqrt", 1, return {pow(args[0], 1/args[1])};, 	 	 3, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("sin",  1, return {sin(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("cos",  1, return {cos(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("tan",  1, return {tan(args[0])};, 				 4, RIGHT_ASSOCIATED, false),
-			DECLARE_OPERATOR("~",	 1, return {-args[0]};,					 	 5, RIGHT_ASSOCIATED, true)
+			DECLARE_OPERATOR("+",    2, return {args[0] + args[1]};, 			 10, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("-",    2, return {args[0] - args[1]};, 			 10, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("*",    2, return {args[0] * args[1]};, 			 11, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("/",    2, return {args[0] / args[1]};, 			 11, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("%",    2, return {std::fmod(args[0], args[1])};,   12, LEFT_ASSOCIATED,  true),
+			DECLARE_OPERATOR("^", 	 2, return {pow(args[0], args[1])};, 		 13, RIGHT_ASSOCIATED, true),
+			DECLARE_OPERATOR("sqrt", 1, return {pow(args[0], 1/args[1])};, 	 	 13, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("sin",  1, return {sin(args[0])};, 				 14, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("cos",  1, return {cos(args[0])};, 				 14, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("tan",  1, return {tan(args[0])};, 				 14, RIGHT_ASSOCIATED, false),
+			DECLARE_OPERATOR("~",	 1, return {-args[0]};,					 	 15, RIGHT_ASSOCIATED, true)
 		};
 
 		/**
