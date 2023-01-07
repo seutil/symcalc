@@ -299,7 +299,7 @@ namespace SymCalc
 		stack<string> stack;
 		size_t formula_length = formula.length();
 		for (size_t i = 0; i < formula_length; i++)
-			if (formula[i] == ',' || formula[i] == ' ')
+			if (formula[i] == ' ' || formula[i] == ',')
 				continue;
 			else if (isdigit(formula[i]))
 			{
@@ -412,15 +412,15 @@ namespace SymCalc
 				output.push_back(stod(s));
 			else
 			{
-				/* Extracting @max_args_count passed arguments for operator(function).
+				/* Extracting @args_count passed arguments for operator(function).
 				 *
 				 * Note:
 				 * 	Number of operator(function) arguments are varies.
 				 * 	That means that in function can be passed 1, 2, ..., max_args_count arguments.
 				 */
 				vector<long double> args;
-				Operators::ArgsCount max_args_count = Operators::get_args_count(s);
-				while (max_args_count-- && output.size())
+				Operators::ArgsCount args_count = Operators::get_args_count(s);
+				while (args_count-- && output.size())
 				{
 					args.push_back(output[output.size()-1]);
 					output.pop_back();
