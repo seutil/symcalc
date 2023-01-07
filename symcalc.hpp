@@ -19,7 +19,12 @@
  * Used within SymCalc::Operators::add function to adding new operators.\n
  * For example of usage see documentation main page
  */
-#define DECLARE_OPERATOR(n, c, b, p, a, i) { n, { c, { ([](std::vector<long double> args) -> std::vector<long double> {b}), { p, { a, i } } } } }
+#define DECLARE_OPERATOR(n, c, b, p, a, i) { n, 																   \
+										   { c, 																   \
+										   { ([](std::vector<long double> args) -> std::vector<long double> {b}),  \
+										   { p,																       \
+										   { a,																   	   \
+											 i }}}}}
 
 /**
  * @namespace SymCalc
@@ -103,15 +108,6 @@ namespace SymCalc
 		};
 
 		/**
-		 * Add new operator.
-		 * @see DECLARE_OPERATOR
-		 */
-		void add(std::pair<std::string, OperatorInfo> op)
-		{
-			operators.insert(op);
-		}
-
-		/**
 		 * Checking that operator wiht name \a op exists
 		 *
 		 * @param op Operator identifier
@@ -123,6 +119,39 @@ namespace SymCalc
 				if (iter.first == op)
 					return true;
 			return false;
+		}
+
+		/**
+		 * Add new operator.
+		 * @see DECLARE_OPERATOR
+		 */
+		void add(std::pair<std::string, OperatorInfo> op)
+		{
+			operators.insert(op);
+		}
+
+		void add(std::string n, ArgsCount c, Operator b, Precedence p, Associativity a, bool i)
+		{
+			if (is_operator(n))
+				return;
+
+			OperatorInfo op_info = {
+				c, { b, { p, { a, i } } }
+			};
+			operators.insert({ n, op_info });
+		}
+
+		/**
+		 * Update already existed operator
+		 * @param op Operator identifier
+		 * @param op_function New function that will be associates with operator \a op
+		 */
+		void update(std::string op, Operator op_function)
+		{
+			if (!is_operator(op))
+				throw std::invalid_argument("Operator \"" + op + "\" is not exists");
+
+			operators[op].second.first = op_function;
 		}
 
 		/**
