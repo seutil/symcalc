@@ -1,0 +1,112 @@
+\hypertarget{classSymCalc}{}\doxysection{Sym\+Calc Class Reference}
+\label{classSymCalc}\index{SymCalc@{SymCalc}}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+typedef long double($\ast$ \mbox{\hyperlink{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}{symcalc\+\_\+operator}}) (std\+::vector$<$ long double $>$ args)
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static std\+::map$<$ std\+::string, \mbox{\hyperlink{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}{symcalc\+\_\+operator}} $>$ \mbox{\hyperlink{classSymCalc_a0e84bd72e18e30fa7f236b8a0aff2fa5}{operators}}
+\end{DoxyCompactItemize}
+\label{_amgrp01747264fe7bf50731df0522c351974e}%
+Add new operator into the operators list. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em name} & name of the operation. This value used for the operation identification \\
+\hline
+\mbox{\texttt{ in}}  & {\em handler} & used defined operator that will be called when $<$calculate$>$ method will be called \\
+\hline
+\mbox{\texttt{ in}}  & {\em replace} & if true than replace already defined handler for operation this parameter can be used for replacing build-\/in handler for defulat operators such as +, -\/, $\ast$, /, etc. \\
+\hline
+\end{DoxyParams}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{classSymCalc_a326b6f750d276a671c9fc1bd272ca7a2}\label{classSymCalc_a326b6f750d276a671c9fc1bd272ca7a2}} 
+static void {\bfseries add\+\_\+operator} (std\+::string name, \mbox{\hyperlink{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}{symcalc\+\_\+operator}} handler, bool replace=false)
+\item 
+\mbox{\Hypertarget{classSymCalc_a3112d4299905c5bce594712cd1433f33}\label{classSymCalc_a3112d4299905c5bce594712cd1433f33}} 
+{\bfseries Sym\+Calc} (std\+::string expression, char delimiter=\textquotesingle{} \textquotesingle{}, char decimal\+\_\+separator=\textquotesingle{}.\textquotesingle{})
+\item 
+\mbox{\Hypertarget{classSymCalc_a158a5a83b2d41b7b2524e97a4267eef3}\label{classSymCalc_a158a5a83b2d41b7b2524e97a4267eef3}} 
+long double {\bfseries calculate} ()
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{classSymCalc_ae9f7913b7076fd1161f704dbcfa6ea13}{to\+\_\+rpn}} ()
+\item 
+\mbox{\Hypertarget{classSymCalc_ae4a2bacbd674ccbc41a136415a9b82a5}\label{classSymCalc_ae4a2bacbd674ccbc41a136415a9b82a5}} 
+std\+::string {\bfseries get\+\_\+experssion} () const
+\item 
+\mbox{\Hypertarget{classSymCalc_a59a3cb8edce6616ae27080e64105b7c2}\label{classSymCalc_a59a3cb8edce6616ae27080e64105b7c2}} 
+void {\bfseries set\+\_\+expression} (std\+::string expression)
+\item 
+\mbox{\Hypertarget{classSymCalc_a78cf1b928018b81408c74295135b2e92}\label{classSymCalc_a78cf1b928018b81408c74295135b2e92}} 
+char {\bfseries get\+\_\+decimal\+\_\+separator} () const
+\item 
+\mbox{\Hypertarget{classSymCalc_aa08dde65ad0eda5eb7755a1aff6a2f5b}\label{classSymCalc_aa08dde65ad0eda5eb7755a1aff6a2f5b}} 
+void {\bfseries set\+\_\+decimal\+\_\+separator} (char decimal\+\_\+separator)
+\item 
+\mbox{\Hypertarget{classSymCalc_af86d9f753073112aac948896efff166d}\label{classSymCalc_af86d9f753073112aac948896efff166d}} 
+char {\bfseries get\+\_\+delimiter} () const
+\item 
+\mbox{\Hypertarget{classSymCalc_adafc0f7e5b1b244c6b83ebf37eb838d8}\label{classSymCalc_adafc0f7e5b1b244c6b83ebf37eb838d8}} 
+void {\bfseries set\+\_\+delimiter} (char delimiter)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}\label{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}} 
+\index{SymCalc@{SymCalc}!symcalc\_operator@{symcalc\_operator}}
+\index{symcalc\_operator@{symcalc\_operator}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{symcalc\_operator}{symcalc\_operator}}
+{\footnotesize\ttfamily typedef long double($\ast$ Sym\+Calc\+::symcalc\+\_\+operator) (std\+::vector$<$ long double $>$ args)}
+
+Typedef for the user defined operators.
+
+
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\texttt{ in}}  & {\em args} & Parameters that function(operator) received when it\textquotesingle{}s called in expression\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+calculated value 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{classSymCalc_ae9f7913b7076fd1161f704dbcfa6ea13}\label{classSymCalc_ae9f7913b7076fd1161f704dbcfa6ea13}} 
+\index{SymCalc@{SymCalc}!to\_rpn@{to\_rpn}}
+\index{to\_rpn@{to\_rpn}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{to\_rpn()}{to\_rpn()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ Sym\+Calc\+::to\+\_\+rpn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+Converts expression into the RPN(reverse polish notation) form.
+
+\begin{DoxyReturn}{Returns}
+Parsed expression as vector of strings 
+\end{DoxyReturn}
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{classSymCalc_a0e84bd72e18e30fa7f236b8a0aff2fa5}\label{classSymCalc_a0e84bd72e18e30fa7f236b8a0aff2fa5}} 
+\index{SymCalc@{SymCalc}!operators@{operators}}
+\index{operators@{operators}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{operators}{operators}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, \mbox{\hyperlink{classSymCalc_a8f82d02ac62942bc7de4f2bc44437093}{symcalc\+\_\+operator}}$>$ Sym\+Calc\+::operators\hspace{0.3cm}{\ttfamily [static]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        \{\},}
+\DoxyCodeLine{    \}}
+
+\end{DoxyCode}
+List of operators that \mbox{\hyperlink{classSymCalc}{Sym\+Calc}} support.~\newline
+For adding used defined operators use $<$add\+\_\+operator$>$ \begin{DoxySeeAlso}{See also}
+Sym\+Call\+::add\+\_\+operator 
+\end{DoxySeeAlso}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+symcalc.\+hpp\end{DoxyCompactItemize}

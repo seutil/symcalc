@@ -1,0 +1,201 @@
+\label{index_md_README}%
+\Hypertarget{index_md_README}%
+\hypertarget{index_autotoc_md1}{}\doxysection{Overview}\label{index_autotoc_md1}
+\mbox{\hyperlink{namespaceSymCalc}{Sym\+Calc}} is a C++ header-\/only library for generic symbolic calculations which supports user defined constants and operators(functions) in different notation styles(\href{https://en.wikipedia.org/wiki/Infix_notation}{\texttt{ infix}} and \href{https://en.wikipedia.org/wiki/Polish_notation}{\texttt{ prefix}} notations), floating point numbers and supportive functions which you can use to transform infix notation to postfix.
+
+For more information about adding new constants and operators(function) see \href{\#constats}{\texttt{ Constants}} and \href{\#operators}{\texttt{ Operators}} sections.\hypertarget{index_autotoc_md2}{}\doxysubsection{Algorithms}\label{index_autotoc_md2}
+In this section described algorithms which used in \mbox{\hyperlink{namespaceSymCalc}{Sym\+Calc}}.
+
+{\itshape Note\+: This algorithms are written on pseudocode} \hypertarget{index_autotoc_md3}{}\doxysubsubsection{Infix to postfix}\label{index_autotoc_md3}
+Algorithm that transform algebraic expression in infix notation to postfix(also known as \href{https://en.wikipedia.org/wiki/Reverse_Polish_notation}{\texttt{ reverse polish}}) notation is a modification of \href{https://en.wikipedia.org/wiki/Shunting_yard_algorithm}{\texttt{ shunting yard algorithm}} which allow parse not only already predefined operators(such as +, -\/, /, $\ast$) but also user defined operators(for example functions like {\itshape sin}, {\itshape cos}, {\itshape sqrt} or {\itshape foo}) and constants.
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{stack = []}
+\DoxyCodeLine{output = []}
+\DoxyCodeLine{}
+\DoxyCodeLine{for token in formula:}
+\DoxyCodeLine{    if is\_number(token)}
+\DoxyCodeLine{        output.push(token)}
+\DoxyCodeLine{    else if token = "{}("{}}
+\DoxyCodeLine{        stack.push(token)}
+\DoxyCodeLine{    else if token = "{})"{}}
+\DoxyCodeLine{        output.push(stack.pop()) while (stack.top != "{}("{})}
+\DoxyCodeLine{        stack.pop() \# remove left parenthesis from stack}
+\DoxyCodeLine{        }
+\DoxyCodeLine{        \# checking that parenthesis are associates with function}
+\DoxyCodeLine{        \# or more generaly, with operator which written on prefix notation}
+\DoxyCodeLine{        output.push(stack.pop()) if has\_prefix\_notation(stack.top) }
+\DoxyCodeLine{    else}
+\DoxyCodeLine{        if is\_operator(token)}
+\DoxyCodeLine{            stack.push(token) and continue if stack.empty() or stack.top = "{}("{}}
+\DoxyCodeLine{            }
+\DoxyCodeLine{            op1\_p, op2\_p = precedence(token), precedence(stack.top)}
+\DoxyCodeLine{            op1\_la = is\_operator\_left\_associated(token)}
+\DoxyCodeLine{            while !stack.empty() and (op2\_p > op1\_p or (op1\_p = op2\_p and op1\_la))}
+\DoxyCodeLine{                output.push(stack.pop())}
+\DoxyCodeLine{                op2\_p = precedence(stack.top) \# new operator precedence}
+\DoxyCodeLine{            stack.push(token)}
+\DoxyCodeLine{        else if is\_contant(token)}
+\DoxyCodeLine{            output.push(get\_constant\_value(token))}
+\DoxyCodeLine{        }
+\DoxyCodeLine{output.push(stack.pop()) while !stack.empty()}
+\DoxyCodeLine{return output}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md4}{}\doxysubsubsection{Calculating formula in postfix notation}\label{index_autotoc_md4}
+Alogirhtm that calculate formula in postfix notation is a default postfix algorithm modification. This algorithm allows function get variable number of arguments and also return variable number of calculations(see \href{\#operators}{\texttt{ operators}}) 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{output = [] \# array of floating point numbers}
+\DoxyCodeLine{}
+\DoxyCodeLine{for token in formula:}
+\DoxyCodeLine{    if is\_number(token)}
+\DoxyCodeLine{        output.push(token)}
+\DoxyCodeLine{    else}
+\DoxyCodeLine{        \# extract operator arguments: [0..op\_max\_arguments\_count)}
+\DoxyCodeLine{        args, op\_max\_arguments\_count = [], get\_max\_operator\_args\_count(token)}
+\DoxyCodeLine{        while op\_max\_arguments\_count-\/-\/ and !output.empty()}
+\DoxyCodeLine{            args.push(stack.pop())}
+\DoxyCodeLine{        }
+\DoxyCodeLine{        \# reversing arguments because in reverse notation they are reversed}
+\DoxyCodeLine{        args.reverse()}
+\DoxyCodeLine{        operator\_output = execute\_operator(token)(args)}
+\DoxyCodeLine{        operator\_output.reverse()}
+\DoxyCodeLine{        output.append(operator\_output)}
+\DoxyCodeLine{}
+\DoxyCodeLine{output.reverse()}
+\DoxyCodeLine{return output}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md5}{}\doxysection{Operators}\label{index_autotoc_md5}
+This section describes how you can add new operators and get information about already existed operators.\hypertarget{index_autotoc_md6}{}\doxysubsection{Adding new operators}\label{index_autotoc_md6}
+For adding new operators you should use {\bfseries{add}} function that are declared in {\bfseries{\mbox{\hyperlink{namespaceSymCalc_1_1Operators}{Sym\+Calc\+::\+Operators}}}} namespace and {\bfseries{DECLARE\+\_\+\+OPERATOR}} macros that declared in {\bfseries{\mbox{\hyperlink{namespaceSymCalc}{Sym\+Calc}}}} namespace. You can use \char`\"{}add\char`\"{} function with DECLARE\+\_\+\+OPERATOR if don\textquotesingle{}t want declare C++ function.
+
+For example, we add new operator with name \char`\"{}foo\char`\"{} which writing in infix notation and return\+:
+\begin{DoxyItemize}
+\item 1, if sum of arguments higher than 0
+\item 0, if sum equal 0
+\item -\/1, if sum lower than 0
+\end{DoxyItemize}
+
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{SymCalc::Operators::add(DECLARE\_OPERATOR(}
+\DoxyCodeLine{    "{}foo"{}, // operator name,}
+\DoxyCodeLine{    2, // maximum number of arguments that this operators receieves}
+\DoxyCodeLine{    \{}
+\DoxyCodeLine{        // function body, parenthesis \{ \} after 'return' required}
+\DoxyCodeLine{        if (args[0] + args[1] > 1) return \{ 1 \};}
+\DoxyCodeLine{        else if (args[0] + args[1] == 0) return \{ 0 \};}
+\DoxyCodeLine{        else return \{ -\/1 \};}
+\DoxyCodeLine{    \}, }
+\DoxyCodeLine{    10, // operator precedence}
+\DoxyCodeLine{    SymCalc::Operators::LEFT\_ASSOCIATED, // operator associativity}
+\DoxyCodeLine{    true // has a infix notation}
+\DoxyCodeLine{));}
+
+\end{DoxyCode}
+
+
+And usage of this operator 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{cout << "{}0 foo -\/1 = "{} << SymCalc::calculate("{}0 foo \string~1"{})[0] << endl;  // \string~ is a unary minus operator}
+\DoxyCodeLine{cout << "{}1 foo -\/1 = "{} << SymCalc::calculate("{}1 foo \string~1"{})[0] << endl;}
+\DoxyCodeLine{cout << "{}1 foo 1  = "{} << SymCalc::calculate("{}1 foo 1"{})[0]  << endl;}
+
+\end{DoxyCode}
+
+
+Output 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{0 foo -\/1 = -\/1}
+\DoxyCodeLine{1 foo -\/1 = 0}
+\DoxyCodeLine{1 foo 1 = 1}
+
+\end{DoxyCode}
+
+
+You also can use another version of {\bfseries{add}} function. This version can be used when yours function implementation is too long.
+
+Another implementation of the previouse example\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{vector<long double> operator\_foo(vector<long double> args)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    long double sum = args[0] + args[1];}
+\DoxyCodeLine{    if (sum > 0)}
+\DoxyCodeLine{        return \{ 1 \};}
+\DoxyCodeLine{    else if (sum == 0)}
+\DoxyCodeLine{        return \{ 0 \};}
+\DoxyCodeLine{    else}
+\DoxyCodeLine{        return \{ -\/1 \};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{SymCalc::Operators::add("{}foo"{}, 2, \&operator\_foo, 10, SymCalc::Operators::LEFT\_ASSOCIATED, true);}
+\DoxyCodeLine{}
+\DoxyCodeLine{cout << "{}0 foo -\/1 = "{} << SymCalc::calculate("{}0 foo \string~1"{})[0] << endl;}
+\DoxyCodeLine{cout << "{}1 foo -\/1 = "{} << SymCalc::calculate("{}1 foo \string~1"{})[0] << endl;}
+\DoxyCodeLine{cout << "{}1 foo 1  = "{} << SymCalc::calculate("{}1 foo 1"{})[0]  << endl;}
+
+\end{DoxyCode}
+
+
+Output 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{0 foo -\/1 = -\/1}
+\DoxyCodeLine{1 foo -\/1 = 0}
+\DoxyCodeLine{1 foo 1  = 1}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md7}{}\doxysubsection{Update predefined operators}\label{index_autotoc_md7}
+You change predefined operators(+, -\/, /, $\ast$, etc...) behavior. To do this, you should use {\bfseries{update}} function which declarated in {\bfseries{\mbox{\hyperlink{namespaceSymCalc_1_1Operators}{Sym\+Calc\+::\+Operators}}}} namespace.
+
+For example, we change + operator behavior to multiplication\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{vector<long double> new\_plus\_operator(vector<long double> args)}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{    return \{ args[0] * args[1] \};}
+\DoxyCodeLine{\}}
+\DoxyCodeLine{}
+\DoxyCodeLine{SymCalc::Operators::update("{}+"{}, \&new\_plus\_operator);}
+\DoxyCodeLine{cout << "{}2 + 12 ="{} << SymCalc::calculate("{}2 + 12"{});}
+
+\end{DoxyCode}
+
+
+Output 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{2 + 12 = 24}
+
+\end{DoxyCode}
+\hypertarget{index_autotoc_md8}{}\doxysubsection{Operator Info}\label{index_autotoc_md8}
+{\bfseries{Operator\+Info}} typedef that declared in {\bfseries{\mbox{\hyperlink{namespaceSymCalc_1_1Operators}{Sym\+Calc\+::\+Operators}}\+:}} namespace.
+
+Operator\+Info constains next information about operator\+:
+
+
+\begin{DoxyEnumerate}
+\item Args\+Count -\/ maximum number of arguments that function can receive
+\item Operator pointer to function which executed when {\bfseries{\mbox{\hyperlink{namespaceSymCalc_a7ae90c743aaf4c34c56711b840bf68bc}{Sym\+Calc\+::calculate}}}} meets operator
+\item Precedence -\/ precedence(priority) of the operator
+\item Associativity -\/ type of the operator associativity
+\item Infix -\/ is operator writes in infix notation or not
+\end{DoxyEnumerate}\hypertarget{index_autotoc_md9}{}\doxysubsection{Predefined operators}\label{index_autotoc_md9}
+See \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a9eb303d85336d1755d879271212a42bd}{Sym\+Calc\+::\+Operators\+::operators}} in documentation\hypertarget{index_autotoc_md10}{}\doxysection{Constants}\label{index_autotoc_md10}
+This section describes how you can add new constants\hypertarget{index_autotoc_md11}{}\doxysubsection{Adding new constant}\label{index_autotoc_md11}
+For adding new constant you should use {\bfseries{add}} function that declared in {\bfseries{\mbox{\hyperlink{namespaceSymCalc_1_1Consts}{Sym\+Calc\+::\+Consts}}}} namespace.
+
+For example, we declare new constant with name \char`\"{}foo\char`\"{}\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{SymCalc::Consts::add("{}foo"{}, -\/100);}
+\DoxyCodeLine{}
+\DoxyCodeLine{cout << "{}1 + foo = "{} << SymCalc::calculate("{}1 + foo"{})[0] << endl;}
+
+\end{DoxyCode}
+
+
+Output\+: 
+\begin{DoxyCode}{0}
+\DoxyCodeLine{1 + foo = -\/99}
+
+\end{DoxyCode}
+ 

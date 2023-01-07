@@ -1,0 +1,111 @@
+\hypertarget{namespaceSymCalc}{}\doxysection{Sym\+Calc Namespace Reference}
+\label{namespaceSymCalc}\index{SymCalc@{SymCalc}}
+\doxysubsection*{Namespaces}
+\begin{DoxyCompactItemize}
+\item 
+ \mbox{\hyperlink{namespaceSymCalc_1_1Consts}{Consts}}
+\begin{DoxyCompactList}\small\item\em Namespace that contains constants and functions for working with constants. \end{DoxyCompactList}\item 
+ \mbox{\hyperlink{namespaceSymCalc_1_1Operators}{Operators}}
+\begin{DoxyCompactList}\small\item\em contains function and typedef for operators(functions)\+: \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Typedefs}
+\begin{DoxyCompactItemize}
+\item 
+typedef std\+::vector$<$ long double $>$($\ast$ \mbox{\hyperlink{namespaceSymCalc_a5725e22f12fb5cf13babe5160243846a}{Operator}}) (std\+::vector$<$ long double $>$ args)
+\begin{DoxyCompactList}\small\item\em Function that associates with operator. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+std\+::vector$<$ std\+::string $>$ \mbox{\hyperlink{namespaceSymCalc_a4824072a1abd36f19d28f746b1caf1f9}{string\+\_\+to\+\_\+rpn}} (std\+::string formula)
+\item 
+std\+::vector$<$ long double $>$ \mbox{\hyperlink{namespaceSymCalc_af857f71f56138f758ba167aefaed8787}{calculate\+\_\+rpn}} (std\+::vector$<$ std\+::string $>$ rpn)
+\item 
+std\+::vector$<$ long double $>$ \mbox{\hyperlink{namespaceSymCalc_a7ae90c743aaf4c34c56711b840bf68bc}{calculate}} (std\+::string formula)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Name space that contains function, typedefs and enumerators types for the symbolic calculations. \begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceSymCalc_1_1Operators}{Sym\+Calc\+::\+Operators}} 
+
+\mbox{\hyperlink{namespaceSymCalc_1_1Consts}{Sym\+Calc\+::\+Consts}} 
+\end{DoxySeeAlso}
+
+
+\doxysubsection{Typedef Documentation}
+\mbox{\Hypertarget{namespaceSymCalc_a5725e22f12fb5cf13babe5160243846a}\label{namespaceSymCalc_a5725e22f12fb5cf13babe5160243846a}} 
+\index{SymCalc@{SymCalc}!Operator@{Operator}}
+\index{Operator@{Operator}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{Operator}{Operator}}
+{\footnotesize\ttfamily typedef std\+::vector$<$long double$>$($\ast$ Sym\+Calc\+::\+Operator) (std\+::vector$<$ long double $>$ args)}
+
+
+
+Function that associates with operator. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em args} & Arguments that passed to operator \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Result of calculations 
+\end{DoxyReturn}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceSymCalc_a7ae90c743aaf4c34c56711b840bf68bc}\label{namespaceSymCalc_a7ae90c743aaf4c34c56711b840bf68bc}} 
+\index{SymCalc@{SymCalc}!calculate@{calculate}}
+\index{calculate@{calculate}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{calculate()}{calculate()}}
+{\footnotesize\ttfamily std\+::vector$<$long double$>$ Sym\+Calc\+::calculate (\begin{DoxyParamCaption}\item[{std\+::string}]{formula }\end{DoxyParamCaption})}
+
+Calculate passed algebraic formula.~\newline
+ Alias for consecutive calls to the \mbox{\hyperlink{namespaceSymCalc_a4824072a1abd36f19d28f746b1caf1f9}{Sym\+Calc\+::string\+\_\+to\+\_\+rpn}} and \mbox{\hyperlink{namespaceSymCalc_af857f71f56138f758ba167aefaed8787}{Sym\+Calc\+::calculate\+\_\+rpn}} functions
+
+
+\begin{DoxyParams}{Parameters}
+{\em formula} & Algebraic formula in infix notation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Result of formula calculations 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+
+\end{DoxySeeAlso}
+\mbox{\Hypertarget{namespaceSymCalc_af857f71f56138f758ba167aefaed8787}\label{namespaceSymCalc_af857f71f56138f758ba167aefaed8787}} 
+\index{SymCalc@{SymCalc}!calculate\_rpn@{calculate\_rpn}}
+\index{calculate\_rpn@{calculate\_rpn}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{calculate\_rpn()}{calculate\_rpn()}}
+{\footnotesize\ttfamily std\+::vector$<$long double$>$ Sym\+Calc\+::calculate\+\_\+rpn (\begin{DoxyParamCaption}\item[{std\+::vector$<$ std\+::string $>$}]{rpn }\end{DoxyParamCaption})}
+
+Calculate passed vector of strings that represents formula in postfix notation
+
+
+\begin{DoxyParams}{Parameters}
+{\em rpn} & Formula in postfix notation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Result of formula calculations 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespaceSymCalc_a4824072a1abd36f19d28f746b1caf1f9}\label{namespaceSymCalc_a4824072a1abd36f19d28f746b1caf1f9}} 
+\index{SymCalc@{SymCalc}!string\_to\_rpn@{string\_to\_rpn}}
+\index{string\_to\_rpn@{string\_to\_rpn}!SymCalc@{SymCalc}}
+\doxysubsubsection{\texorpdfstring{string\_to\_rpn()}{string\_to\_rpn()}}
+{\footnotesize\ttfamily std\+::vector$<$std\+::string$>$ Sym\+Calc\+::string\+\_\+to\+\_\+rpn (\begin{DoxyParamCaption}\item[{std\+::string}]{formula }\end{DoxyParamCaption})}
+
+Transform passed formula in infix notation to postfix(reverse polish) notation.~\newline
+For more information see \href{https://en.wikipedia.org/wiki/Shunting_yard_algorithm}{\texttt{ Shunting yard algorithm}}
+
+
+\begin{DoxyParams}{Parameters}
+{\em formula} & Algebraic formula in infix notation \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of strings that represents formula in postfix notation 
+\end{DoxyReturn}
+\begin{DoxySeeAlso}{See also}
+\mbox{\hyperlink{namespaceSymCalc_af857f71f56138f758ba167aefaed8787}{Sym\+Calc\+::calculate\+\_\+rpn}} 
+\end{DoxySeeAlso}

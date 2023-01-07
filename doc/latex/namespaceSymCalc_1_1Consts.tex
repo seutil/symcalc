@@ -1,0 +1,92 @@
+\hypertarget{namespaceSymCalc_1_1Consts}{}\doxysection{Sym\+Calc\+::Consts Namespace Reference}
+\label{namespaceSymCalc_1_1Consts}\index{SymCalc::Consts@{SymCalc::Consts}}
+
+
+Namespace that contains constants and functions for working with constants.  
+
+
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{namespaceSymCalc_1_1Consts_a6d165e3667471cca4e4a1764423524a1}{add}} (std\+::string n, long double v)
+\item 
+bool \mbox{\hyperlink{namespaceSymCalc_1_1Consts_a9e103286c558a2428809408d0a6b77f0}{is\+\_\+const}} (std\+::string co)
+\item 
+long double \mbox{\hyperlink{namespaceSymCalc_1_1Consts_a32822476284d4d26b0ab0db5e6c9fad1}{get\+\_\+const}} (std\+::string co)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+std\+::map$<$ std\+::string, long double $>$ \mbox{\hyperlink{namespaceSymCalc_1_1Consts_a01110097e10d446da3468670da44d9ee}{consts}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Namespace that contains constants and functions for working with constants. 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{namespaceSymCalc_1_1Consts_a6d165e3667471cca4e4a1764423524a1}\label{namespaceSymCalc_1_1Consts_a6d165e3667471cca4e4a1764423524a1}} 
+\index{SymCalc::Consts@{SymCalc::Consts}!add@{add}}
+\index{add@{add}!SymCalc::Consts@{SymCalc::Consts}}
+\doxysubsubsection{\texorpdfstring{add()}{add()}}
+{\footnotesize\ttfamily void Sym\+Calc\+::\+Consts\+::add (\begin{DoxyParamCaption}\item[{std\+::string}]{n,  }\item[{long double}]{v }\end{DoxyParamCaption})}
+
+Add new constant
+
+
+\begin{DoxyParams}{Parameters}
+{\em n} & Constant identifier \\
+\hline
+{\em v} & Constant value \\
+\hline
+\end{DoxyParams}
+\mbox{\Hypertarget{namespaceSymCalc_1_1Consts_a32822476284d4d26b0ab0db5e6c9fad1}\label{namespaceSymCalc_1_1Consts_a32822476284d4d26b0ab0db5e6c9fad1}} 
+\index{SymCalc::Consts@{SymCalc::Consts}!get\_const@{get\_const}}
+\index{get\_const@{get\_const}!SymCalc::Consts@{SymCalc::Consts}}
+\doxysubsubsection{\texorpdfstring{get\_const()}{get\_const()}}
+{\footnotesize\ttfamily long double Sym\+Calc\+::\+Consts\+::get\+\_\+const (\begin{DoxyParamCaption}\item[{std\+::string}]{co }\end{DoxyParamCaption})}
+
+Return constant associated value
+
+
+\begin{DoxyParams}{Parameters}
+{\em co} & Constant identifier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+Constant associated value if constant with identifier {\itshape co} exists, otherwise rising exception 
+\end{DoxyReturn}
+\mbox{\Hypertarget{namespaceSymCalc_1_1Consts_a9e103286c558a2428809408d0a6b77f0}\label{namespaceSymCalc_1_1Consts_a9e103286c558a2428809408d0a6b77f0}} 
+\index{SymCalc::Consts@{SymCalc::Consts}!is\_const@{is\_const}}
+\index{is\_const@{is\_const}!SymCalc::Consts@{SymCalc::Consts}}
+\doxysubsubsection{\texorpdfstring{is\_const()}{is\_const()}}
+{\footnotesize\ttfamily bool Sym\+Calc\+::\+Consts\+::is\+\_\+const (\begin{DoxyParamCaption}\item[{std\+::string}]{co }\end{DoxyParamCaption})}
+
+Checking that constants with passed identifier exists
+
+
+\begin{DoxyParams}{Parameters}
+{\em co} & Constant identifier \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+true if constant with identifier {\itshape co} exists, otherwise return false 
+\end{DoxyReturn}
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{namespaceSymCalc_1_1Consts_a01110097e10d446da3468670da44d9ee}\label{namespaceSymCalc_1_1Consts_a01110097e10d446da3468670da44d9ee}} 
+\index{SymCalc::Consts@{SymCalc::Consts}!consts@{consts}}
+\index{consts@{consts}!SymCalc::Consts@{SymCalc::Consts}}
+\doxysubsubsection{\texorpdfstring{consts}{consts}}
+{\footnotesize\ttfamily std\+::map$<$std\+::string, long double$>$ Sym\+Calc\+::\+Consts\+::consts}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{\{}
+\DoxyCodeLine{            \{ \textcolor{stringliteral}{"{}pi"{}}, 3.1415926535 \},}
+\DoxyCodeLine{            \{ \textcolor{stringliteral}{"{}e"{}},  2.7182818284 \}}
+\DoxyCodeLine{        \}}
+
+\end{DoxyCode}
+Predefined constants 
