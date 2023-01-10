@@ -8,7 +8,7 @@ var namespaceSymCalc =
     ] ],
     [ "Operators", "namespaceSymCalc_1_1Operators.html", [
       [ "ArgsCount", "namespaceSymCalc_1_1Operators.html#a5c8255cfc5cb196299d8cfa3ca90a2c1", null ],
-      [ "OperatorInfo", "namespaceSymCalc_1_1Operators.html#a488b61e12752c247a3af36ba38988837", null ],
+      [ "OperatorInfo", "namespaceSymCalc_1_1Operators.html#a2ebcec7cbb8ab085c45cd70b777a2a42", null ],
       [ "OperatorsMap", "namespaceSymCalc_1_1Operators.html#a6b644da38494450ac83cbcfea3931ac1", null ],
       [ "Precedence", "namespaceSymCalc_1_1Operators.html#a0e2806d4aa3badb9c55cd5b348d20801", null ],
       [ "Associativity", "namespaceSymCalc_1_1Operators.html#a3928241184cc8b903d40d87b70d2323c", [

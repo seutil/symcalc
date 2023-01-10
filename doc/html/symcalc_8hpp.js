@@ -3,7 +3,7 @@ var symcalc_8hpp =
     [ "DECLARE_OPERATOR", "symcalc_8hpp.html#aa7988e11a95cf9cd31613ac3feced8ec", null ],
     [ "ArgsCount", "symcalc_8hpp.html#a5c8255cfc5cb196299d8cfa3ca90a2c1", null ],
     [ "Operator", "symcalc_8hpp.html#a5725e22f12fb5cf13babe5160243846a", null ],
-    [ "OperatorInfo", "symcalc_8hpp.html#a488b61e12752c247a3af36ba38988837", null ],
+    [ "OperatorInfo", "symcalc_8hpp.html#a2ebcec7cbb8ab085c45cd70b777a2a42", null ],
     [ "OperatorsMap", "symcalc_8hpp.html#a6b644da38494450ac83cbcfea3931ac1", null ],
     [ "Precedence", "symcalc_8hpp.html#a0e2806d4aa3badb9c55cd5b348d20801", null ],
     [ "Associativity", "symcalc_8hpp.html#a3928241184cc8b903d40d87b70d2323c", [

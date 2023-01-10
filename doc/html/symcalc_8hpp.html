@@ -93,31 +93,25 @@ $(document).ready(function(){initNavTree('symcalc_8hpp.html',''); initResizable(
 </div><!--header-->
 <div class="contents">
 <div class="textblock"><code>#include &lt;map&gt;</code><br />
-<code>#include &lt;set&gt;</code><br />
-<code>#include &lt;list&gt;</code><br />
-<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;stack&gt;</code><br />
-<code>#include &lt;cctype&gt;</code><br />
-<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;cmath&gt;</code><br />
 <code>#include &lt;vector&gt;</code><br />
-<code>#include &lt;utility&gt;</code><br />
+<code>#include &lt;string&gt;</code><br />
+<code>#include &lt;cctype&gt;</code><br />
 <code>#include &lt;stdexcept&gt;</code><br />
 </div><div class="textblock"><div class="dynheader">
 Include dependency graph for symcalc.hpp:</div>
 <div class="dyncontent">
 <div class="center"><img src="symcalc_8hpp__incl.png" border="0" usemap="#asymcalc_8hpp" alt=""/></div>
 <map name="asymcalc_8hpp" id="asymcalc_8hpp">
-<area shape="rect" title=" " alt="" coords="320,5,424,32"/>
+<area shape="rect" title=" " alt="" coords="228,5,332,32"/>
 <area shape="rect" title=" " alt="" coords="5,80,56,107"/>
-<area shape="rect" title=" " alt="" coords="80,80,123,107"/>
-<area shape="rect" title=" " alt="" coords="147,80,189,107"/>
-<area shape="rect" title=" " alt="" coords="214,80,277,107"/>
-<area shape="rect" title=" " alt="" coords="301,80,358,107"/>
-<area shape="rect" title=" " alt="" coords="382,80,447,107"/>
-<area shape="rect" title=" " alt="" coords="472,80,531,107"/>
-<area shape="rect" title=" " alt="" coords="555,80,618,107"/>
-<area shape="rect" title=" " alt="" coords="642,80,702,107"/>
-<area shape="rect" title=" " alt="" coords="726,80,813,107"/>
+<area shape="rect" title=" " alt="" coords="81,80,138,107"/>
+<area shape="rect" title=" " alt="" coords="162,80,225,107"/>
+<area shape="rect" title=" " alt="" coords="249,80,311,107"/>
+<area shape="rect" title=" " alt="" coords="336,80,395,107"/>
+<area shape="rect" title=" " alt="" coords="419,80,485,107"/>
+<area shape="rect" title=" " alt="" coords="509,80,595,107"/>
 </map>
 </div>
 </div>
@@ -152,13 +146,13 @@ For example see <a href="http://www.eecs.northwestern.edu/~wkliao/op-prec.htm" t
 <tr class="memitem:a5c8255cfc5cb196299d8cfa3ca90a2c1"><td class="memItemLeft" align="right" valign="top"><a id="a5c8255cfc5cb196299d8cfa3ca90a2c1"></a>
 typedef size_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSymCalc_1_1Operators.html#a5c8255cfc5cb196299d8cfa3ca90a2c1">SymCalc::Operators::ArgsCount</a></td></tr>
 <tr class="memdesc:a5c8255cfc5cb196299d8cfa3ca90a2c1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Typedef for number of function arguments.<br  />
-Used in <a class="el" href="namespaceSymCalc_1_1Operators.html#a488b61e12752c247a3af36ba38988837">SymCalc::Operators::OperatorInfo</a> typedef. <br /></td></tr>
+Used in <a class="el" href="namespaceSymCalc_1_1Operators.html#a2ebcec7cbb8ab085c45cd70b777a2a42">SymCalc::Operators::OperatorInfo</a> typedef. <br /></td></tr>
 <tr class="separator:a5c8255cfc5cb196299d8cfa3ca90a2c1"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a488b61e12752c247a3af36ba38988837"><td class="memItemLeft" align="right" valign="top">typedef std::pair&lt; ArgsCount, std::pair&lt; Operator, std::pair&lt; Precedence, std::pair&lt; Associativity, bool &gt; &gt; &gt; &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSymCalc_1_1Operators.html#a488b61e12752c247a3af36ba38988837">SymCalc::Operators::OperatorInfo</a></td></tr>
-<tr class="separator:a488b61e12752c247a3af36ba38988837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a2ebcec7cbb8ab085c45cd70b777a2a42"><td class="memItemLeft" align="right" valign="top">typedef std::tuple&lt; ArgsCount, Operator, Precedence, Associativity, bool &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSymCalc_1_1Operators.html#a2ebcec7cbb8ab085c45cd70b777a2a42">SymCalc::Operators::OperatorInfo</a></td></tr>
+<tr class="separator:a2ebcec7cbb8ab085c45cd70b777a2a42"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6b644da38494450ac83cbcfea3931ac1"><td class="memItemLeft" align="right" valign="top"><a id="a6b644da38494450ac83cbcfea3931ac1"></a>
 typedef std::map&lt; std::string, OperatorInfo &gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="namespaceSymCalc_1_1Operators.html#a6b644da38494450ac83cbcfea3931ac1">SymCalc::Operators::OperatorsMap</a></td></tr>
-<tr class="memdesc:a6b644da38494450ac83cbcfea3931ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of <a class="el" href="namespaceSymCalc_1_1Operators.html#a488b61e12752c247a3af36ba38988837">Operators::OperatorInfo</a>. <br /></td></tr>
+<tr class="memdesc:a6b644da38494450ac83cbcfea3931ac1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Map of <a class="el" href="namespaceSymCalc_1_1Operators.html#a2ebcec7cbb8ab085c45cd70b777a2a42">Operators::OperatorInfo</a>. <br /></td></tr>
 <tr class="separator:a6b644da38494450ac83cbcfea3931ac1"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="enum-members"></a>
@@ -261,12 +255,14 @@ Variables</h2></td></tr>
         </tr>
       </table>
 </div><div class="memdoc">
-<b>Value:</b><div class="fragment"><div class="line">                                           { n,                                                                    \</div>
-<div class="line">                                           { c,                                                                    \</div>
-<div class="line">                                           { ([](std::vector&lt;long double&gt; args) -&gt; std::vector&lt;long double&gt; {b}),  \</div>
-<div class="line">                                           { p,                                                                    \</div>
-<div class="line">                                           { a,                                                                    \</div>
-<div class="line">                                             i }}}}}</div>
+<b>Value:</b><div class="fragment"><div class="line">                                              { n, \</div>
+<div class="line">                                              std::make_tuple&lt;ArgsCount, Operator, Precedence, Associativity, bool&gt; \</div>
+<div class="line">                                              (c, \</div>
+<div class="line">                                              ([](std::vector&lt;long double&gt; args) -&gt; std::vector&lt;long double&gt; {b}), \</div>
+<div class="line">                                              p, \</div>
+<div class="line">                                              a, \</div>
+<div class="line">                                              i) \</div>
+<div class="line">                                            }</div>
 </div><!-- fragment --><p>Used within <a class="el" href="namespaceSymCalc_1_1Operators.html#a79566b60f358128ad6cd062a954a1d2f">SymCalc::Operators::add</a> function to adding new operators.<br  />
 For example of usage see documentation main page </p>
 

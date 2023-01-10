@@ -1,16 +1,14 @@
 \hypertarget{symcalc_8hpp}{}\doxysection{symcalc.\+hpp File Reference}
 \label{symcalc_8hpp}\index{symcalc.hpp@{symcalc.hpp}}
 {\ttfamily \#include $<$map$>$}\newline
-{\ttfamily \#include $<$set$>$}\newline
-{\ttfamily \#include $<$list$>$}\newline
-{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$stack$>$}\newline
-{\ttfamily \#include $<$cctype$>$}\newline
-{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
 {\ttfamily \#include $<$vector$>$}\newline
-{\ttfamily \#include $<$utility$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include $<$cctype$>$}\newline
 {\ttfamily \#include $<$stdexcept$>$}\newline
-Include dependency graph for symcalc.\+hpp\+:\nopagebreak
+Include dependency graph for symcalc.\+hpp\+:
+\nopagebreak
 \begin{figure}[H]
 \begin{center}
 \leavevmode
@@ -43,12 +41,12 @@ For example see \href{http://www.eecs.northwestern.edu/~wkliao/op-prec.htm}{\tex
 \mbox{\Hypertarget{namespaceSymCalc_1_1Operators_a5c8255cfc5cb196299d8cfa3ca90a2c1}\label{namespaceSymCalc_1_1Operators_a5c8255cfc5cb196299d8cfa3ca90a2c1}} 
 typedef size\+\_\+t \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a5c8255cfc5cb196299d8cfa3ca90a2c1}{Sym\+Calc\+::\+Operators\+::\+Args\+Count}}
 \begin{DoxyCompactList}\small\item\em Typedef for number of function arguments.~\newline
-Used in \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a488b61e12752c247a3af36ba38988837}{Sym\+Calc\+::\+Operators\+::\+Operator\+Info}} typedef. \end{DoxyCompactList}\item 
-typedef std\+::pair$<$ Args\+Count, std\+::pair$<$ Operator, std\+::pair$<$ Precedence, std\+::pair$<$ Associativity, bool $>$ $>$ $>$ $>$ \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a488b61e12752c247a3af36ba38988837}{Sym\+Calc\+::\+Operators\+::\+Operator\+Info}}
+Used in \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a2ebcec7cbb8ab085c45cd70b777a2a42}{Sym\+Calc\+::\+Operators\+::\+Operator\+Info}} typedef. \end{DoxyCompactList}\item 
+typedef std\+::tuple$<$ Args\+Count, Operator, Precedence, Associativity, bool $>$ \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a2ebcec7cbb8ab085c45cd70b777a2a42}{Sym\+Calc\+::\+Operators\+::\+Operator\+Info}}
 \item 
 \mbox{\Hypertarget{namespaceSymCalc_1_1Operators_a6b644da38494450ac83cbcfea3931ac1}\label{namespaceSymCalc_1_1Operators_a6b644da38494450ac83cbcfea3931ac1}} 
 typedef std\+::map$<$ std\+::string, Operator\+Info $>$ \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a6b644da38494450ac83cbcfea3931ac1}{Sym\+Calc\+::\+Operators\+::\+Operators\+Map}}
-\begin{DoxyCompactList}\small\item\em Map of \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a488b61e12752c247a3af36ba38988837}{Operators\+::\+Operator\+Info}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\begin{DoxyCompactList}\small\item\em Map of \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a2ebcec7cbb8ab085c45cd70b777a2a42}{Operators\+::\+Operator\+Info}}. \end{DoxyCompactList}\end{DoxyCompactItemize}
 \doxysubsection*{Enumerations}
 \begin{DoxyCompactItemize}
 \item 
@@ -109,12 +107,14 @@ std\+::map$<$ std\+::string, long double $>$ \mbox{\hyperlink{namespaceSymCalc_1
 
 {\bfseries Value\+:}
 \begin{DoxyCode}{0}
-\DoxyCodeLine{                                           \{ n,                                                                    \(\backslash\)}
-\DoxyCodeLine{                                           \{ c,                                                                    \(\backslash\)}
-\DoxyCodeLine{                                           \{ ([](std::vector<long double> args) -\/> std::vector<long double> \{b\}),  \(\backslash\)}
-\DoxyCodeLine{                                           \{ p,                                                                    \(\backslash\)}
-\DoxyCodeLine{                                           \{ a,                                                                    \(\backslash\)}
-\DoxyCodeLine{                                             i \}\}\}\}\}}
+\DoxyCodeLine{                                              \{ n, \(\backslash\)}
+\DoxyCodeLine{                                              std::make\_tuple<ArgsCount, Operator, Precedence, Associativity, bool> \(\backslash\)}
+\DoxyCodeLine{                                              (c, \(\backslash\)}
+\DoxyCodeLine{                                              ([](std::vector<long double> args) -\/> std::vector<long double> \{b\}), \(\backslash\)}
+\DoxyCodeLine{                                              p, \(\backslash\)}
+\DoxyCodeLine{                                              a, \(\backslash\)}
+\DoxyCodeLine{                                              i) \(\backslash\)}
+\DoxyCodeLine{                                            \}}
 
 \end{DoxyCode}
 Used within \mbox{\hyperlink{namespaceSymCalc_1_1Operators_a79566b60f358128ad6cd062a954a1d2f}{Sym\+Calc\+::\+Operators\+::add}} function to adding new operators.~\newline
