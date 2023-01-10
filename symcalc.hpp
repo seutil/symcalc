@@ -1,14 +1,11 @@
 #pragma once
 
 #include <map>
-#include <set>
-#include <list>
-#include <cmath>
 #include <stack>
-#include <cctype>
-#include <string>
+#include <cmath>
 #include <vector>
-#include <utility>
+#include <string>
+#include <cctype>
 #include <stdexcept>
 
 /**
@@ -19,12 +16,14 @@
  * Used within SymCalc::Operators::add function to adding new operators.\n
  * For example of usage see documentation main page
  */
-#define DECLARE_OPERATOR(n, c, b, p, a, i) { n, 																   \
-										   { c, 																   \
-										   { ([](std::vector<long double> args) -> std::vector<long double> {b}),  \
-										   { p,																       \
-										   { a,																   	   \
-											 i }}}}}
+#define DECLARE_OPERATOR(n, c, b, p, a, i) 	{ n, \
+											  std::make_tuple<ArgsCount, Operator, Precedence, Associativity, bool> \
+										      (c, \
+ 	 	 	 	 	 	 	 	 	 	 	  ([](std::vector<long double> args) -> std::vector<long double> {b}), \
+											  p, \
+											  a, \
+											  i) \
+										    }
 
 /**
  * @namespace SymCalc
@@ -80,7 +79,7 @@ namespace SymCalc
 		 *
 		 * @see #DECLARE_OPERATOR
 		 */
-		typedef std::pair<ArgsCount, std::pair<Operator, std::pair<Precedence, std::pair<Associativity, bool>>>> OperatorInfo;
+		typedef std::tuple<ArgsCount, Operator, Precedence, Associativity, bool> OperatorInfo;
 
 		/**
 		 * \brief
@@ -138,9 +137,7 @@ namespace SymCalc
 			if (is_operator(n))
 				return;
 
-			OperatorInfo op_info = {
-				c, { b, { p, { a, i } } }
-			};
+			OperatorInfo op_info = std::make_tuple(c, b, p, a, i);
 			operators.insert({ n, op_info });
 		}
 
@@ -154,7 +151,7 @@ namespace SymCalc
 			if (!is_operator(op))
 				throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 
-			operators[op].second.first = op_function;
+			std::get<1>(operators.at(op)) = op_function;
 		}
 
 		/**
@@ -165,9 +162,9 @@ namespace SymCalc
 		 */
 		bool is_infix(std::string op)
 		{
-			for (const auto& iter : operators)
-				if (iter.first == op)
-					return iter.second.second.second.second.second;
+			for (const auto& [k, v] : operators)
+				if (k == op)
+					return std::get<4>(v);
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
@@ -179,9 +176,9 @@ namespace SymCalc
 		 */
 		Operator get_operator(std::string op)
 		{
-			for (const auto& iter : operators)
-				if (iter.first == op)
-					return iter.second.second.first;
+			for (const auto& [k, v] : operators)
+				if (k == op)
+					return std::get<1>(v);
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
@@ -193,9 +190,9 @@ namespace SymCalc
 		 */
 		Precedence get_precedence(std::string op)
 		{
-			for (const auto& iter : operators)
-				if (iter.first == op)
-					return iter.second.second.second.first;
+			for (const auto& [k, v] : operators)
+				if (k == op)
+					return std::get<2>(v);
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
@@ -207,9 +204,9 @@ namespace SymCalc
 		 */
 		Associativity get_associativity(std::string op)
 		{
-			for (const auto& iter : operators)
-				if (iter.first == op)
-					return iter.second.second.second.second.first;
+			for (const auto& [k, v] : operators)
+				if (k == op)
+					return std::get<3>(v);
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 
@@ -221,9 +218,9 @@ namespace SymCalc
 		 */
 		ArgsCount get_args_count(std::string op)
 		{
-			for (const auto& iter : operators)
-				if (iter.first == op)
-					return iter.second.first;
+			for (const auto& [k, v] : operators)
+				if (k == op)
+					return std::get<0>(v);
 			throw std::invalid_argument("Operator \"" + op + "\" is not exists");
 		}
 	}
